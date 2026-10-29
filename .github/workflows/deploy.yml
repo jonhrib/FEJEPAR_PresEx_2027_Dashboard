@@ -30,7 +30,10 @@ jobs:
           node-version: 22
 
       - name: Instalar dependencias
-        run: npm install
+        run: npm ci
+
+      - name: Corrigir permissao do Vite
+        run: chmod +x node_modules/.bin/vite
 
       - name: Compilar dashboard
         run: npm run build
