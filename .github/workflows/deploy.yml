@@ -1,9 +1,10 @@
-@'
+
 name: Publicar Dashboard FEJEPAR
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -18,26 +19,26 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Baixar código
+      - name: Baixar codigo
         uses: actions/checkout@v4
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
-      - name: Instalar dependências
+      - name: Instalar dependencias
         run: npm install
 
-      - name: Compilar aplicação
+      - name: Compilar dashboard
         run: npm run build
 
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Preparar arquivos
+      - name: Preparar arquivos para publicacao
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
@@ -46,10 +47,11 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
     needs: build
+
     steps:
-      - name: Publicar site
+      - name: Publicar dashboard
         id: deployment
         uses: actions/deploy-pages@v4
-'@ | Set-Content -Encoding utf8 .github/workflows/deploy.yml
